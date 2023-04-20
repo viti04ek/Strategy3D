@@ -6,6 +6,7 @@ public class Management : MonoBehaviour
 {
     public Camera Camera;
     public SelectableObject Hovered;
+    public List<SelectableObject> ListOfSelected = new List<SelectableObject>();
 
 
     void Update()
@@ -45,6 +46,23 @@ public class Management : MonoBehaviour
         {
             UnhoverCurrent();
         }
+
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (Hovered)
+            {
+                if (!Input.GetKey(KeyCode.LeftControl))
+                    UnselectAll();
+
+                Select(Hovered);
+            }
+        }
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            UnselectAll();
+        }
     }
 
 
@@ -54,6 +72,26 @@ public class Management : MonoBehaviour
         {
             Hovered.OnUnhover();
             Hovered = null;
+        }
+    }
+
+
+    void UnselectAll()
+    {
+        foreach (var selected in ListOfSelected)
+        {
+            selected.Unselect();
+        }
+        ListOfSelected.Clear();
+    }
+
+
+    void Select(SelectableObject selectableObject)
+    {
+        if (!ListOfSelected.Contains(selectableObject))
+        {
+            ListOfSelected.Add(selectableObject);
+            selectableObject.Select();
         }
     }
 }
