@@ -18,8 +18,42 @@ public class Management : MonoBehaviour
         {
             if (hit.collider.GetComponent<SelectableCollider>())
             {
-                Hovered = hit.collider.GetComponent<SelectableCollider>().SelectableObject;
+                SelectableObject hitSelectable = hit.collider.GetComponent<SelectableCollider>().SelectableObject;
+
+                if (Hovered)
+                {
+                    if (Hovered != hitSelectable)
+                    {
+                        Hovered.OnUnhover();
+
+                        Hovered = hitSelectable;
+                        Hovered.OnHover();
+                    }
+                }
+                else
+                {
+                    Hovered = hitSelectable;
+                    Hovered.OnHover();
+                }
             }
+            else
+            {
+                UnhoverCurrent();
+            }
+        }
+        else
+        {
+            UnhoverCurrent();
+        }
+    }
+
+
+    void UnhoverCurrent()
+    {
+        if (Hovered)
+        {
+            Hovered.OnUnhover();
+            Hovered = null;
         }
     }
 }
