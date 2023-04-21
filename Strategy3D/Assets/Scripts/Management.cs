@@ -3,6 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+public enum SelectionState
+{
+    UnitsSelected,
+    Frame,
+    Other
+}
+
+
 public class Management : MonoBehaviour
 {
     public Camera Camera;
@@ -12,6 +21,8 @@ public class Management : MonoBehaviour
     public Image FrameImage;
     private Vector2 _frameStart;
     private Vector2 _frameEnd;
+
+    public SelectionState CurrentSelectionState;
 
 
     void Update()
@@ -62,9 +73,13 @@ public class Management : MonoBehaviour
                 if (!Input.GetKey(KeyCode.LeftControl))
                     UnselectAll();
 
+                CurrentSelectionState = SelectionState.UnitsSelected;
                 Select(Hovered);
             }
+        }
 
+        if (Input.GetMouseButtonUp(0) && CurrentSelectionState == SelectionState.UnitsSelected)
+        {
             if (hit.collider.tag == "Ground")
             {
                 foreach (var selected in ListOfSelected)
@@ -101,7 +116,6 @@ public class Management : MonoBehaviour
                 FrameImage.enabled = true;
 
                 FrameImage.rectTransform.anchoredPosition = min;
-
                 FrameImage.rectTransform.sizeDelta = size;
 
 
@@ -118,12 +132,19 @@ public class Management : MonoBehaviour
                         Select(unit);
                     }
                 }
+
+                CurrentSelectionState = SelectionState.Frame;
             }
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             FrameImage.enabled = false;
+
+            if (ListOfSelected.Count > 0)
+                CurrentSelectionState = SelectionState.UnitsSelected;
+            else
+                CurrentSelectionState = SelectionState.Other;
         }
     }
 
@@ -145,6 +166,8 @@ public class Management : MonoBehaviour
             selected.Unselect();
         }
         ListOfSelected.Clear();
+
+        CurrentSelectionState = SelectionState.Other;
     }
 
 
