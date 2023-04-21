@@ -57,6 +57,14 @@ public class Management : MonoBehaviour
 
                 Select(Hovered);
             }
+
+            if (hit.collider.tag == "Ground")
+            {
+                foreach (var selected in ListOfSelected)
+                {
+                    selected.WhenClickOnGround(hit.point);
+                }
+            }
         }
 
         if (Input.GetMouseButtonUp(1))

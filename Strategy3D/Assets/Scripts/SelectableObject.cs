@@ -35,4 +35,10 @@ public class SelectableObject : MonoBehaviour
     {
         SelectionIndicator.SetActive(false);
     }
+
+
+    public virtual void WhenClickOnGround(Vector3 point)
+    {
+
+    }
 }
