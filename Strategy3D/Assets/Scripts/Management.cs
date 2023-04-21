@@ -89,17 +89,36 @@ public class Management : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            FrameImage.enabled = true;
-
             _frameEnd = Input.mousePosition;
 
             Vector2 min = Vector2.Min(_frameStart, _frameEnd);
             Vector2 max = Vector2.Max(_frameStart, _frameEnd);
 
-            FrameImage.rectTransform.anchoredPosition = min;
-
             Vector2 size = max - min;
-            FrameImage.rectTransform.sizeDelta = size;
+
+            if (size.magnitude > 10)
+            {
+                FrameImage.enabled = true;
+
+                FrameImage.rectTransform.anchoredPosition = min;
+
+                FrameImage.rectTransform.sizeDelta = size;
+
+
+                Rect rect = new Rect(min, size);
+
+                UnselectAll();
+
+                Unit[] allUnits = FindObjectsOfType<Unit>();
+                foreach (var unit in allUnits)
+                {
+                    Vector2 screenPosition = Camera.WorldToScreenPoint(unit.transform.position);
+                    if (rect.Contains(screenPosition))
+                    {
+                        Select(unit);
+                    }
+                }
+            }
         }
 
         if (Input.GetMouseButtonUp(0))
