@@ -38,4 +38,11 @@ public class BuildingPlacer : MonoBehaviour
             CurrentBuilding = null;
         }
     }
+
+
+    public void CreateBuilding(GameObject buildingPrefab)
+    {
+        GameObject newBuilding = Instantiate(buildingPrefab);
+        CurrentBuilding = newBuilding.GetComponent<Building>();
+    }
 }
