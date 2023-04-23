@@ -354,13 +354,13 @@
 "Assets/Scripts/Building/BuildingPlacer.cs"
 "Assets/Scripts/Building/Mine.cs"
 "Assets/Scripts/CameraMove.cs"
-"Assets/Scripts/Knight.cs"
 "Assets/Scripts/Management.cs"
 "Assets/Scripts/Resources.cs"
 "Assets/Scripts/SelectableCollider.cs"
 "Assets/Scripts/SelectableObject.cs"
-"Assets/Scripts/Unit.cs"
-"Assets/Scripts/UnitButton.cs"
+"Assets/Scripts/Unit/Knight.cs"
+"Assets/Scripts/Unit/Unit.cs"
+"Assets/Scripts/Unit/UnitButton.cs"
 -langversion:9.0
 
 /deterministic
