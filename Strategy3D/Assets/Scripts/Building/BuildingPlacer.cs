@@ -35,10 +35,19 @@ public class BuildingPlacer : MonoBehaviour
 
         CurrentBuilding.transform.position = new Vector3(x, 0, z) * CellSize;
 
-        if (Input.GetMouseButtonDown(0))
+        if (CheckAllow(x, z, CurrentBuilding))
         {
-            InstallBuilding(x, z, CurrentBuilding);
-            CurrentBuilding = null;
+            CurrentBuilding.DisplayAcceptablePosition();
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                InstallBuilding(x, z, CurrentBuilding);
+                CurrentBuilding = null;
+            }
+        }
+        else
+        {
+            CurrentBuilding.DisplayUnacceptablePosition();
         }
     }
 
@@ -60,5 +69,22 @@ public class BuildingPlacer : MonoBehaviour
                 BuildingsDictionary.Add(coordinate, building);
             }
         }
+    }
+
+
+    private bool CheckAllow(int xPosition, int zPosition, Building building)
+    {
+        for (int x = 0; x < building.XSize; x++)
+        {
+            for (int z = 0; z < building.ZSize; z++)
+            {
+                Vector2Int coordinate = new Vector2Int(xPosition + x, zPosition + z);
+
+                if (BuildingsDictionary.ContainsKey(coordinate))
+                    return false;
+            }
+        }
+
+        return true;
     }
 }
