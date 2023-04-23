@@ -360,6 +360,7 @@
 "Assets/Scripts/SelectableCollider.cs"
 "Assets/Scripts/SelectableObject.cs"
 "Assets/Scripts/Unit.cs"
+"Assets/Scripts/UnitButton.cs"
 -langversion:9.0
 
 /deterministic
