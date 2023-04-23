@@ -8,6 +8,15 @@ public class Building : SelectableObject
     public int XSize = 3;
     public int ZSize = 3;
 
+    private Color _startColor;
+    public Renderer Renderer;
+
+
+    private void Awake()
+    {
+        _startColor = Renderer.material.color;
+    }
+
 
     private void OnDrawGizmos()
     {
@@ -20,5 +29,17 @@ public class Building : SelectableObject
                 Gizmos.DrawWireCube(transform.position + new Vector3(x, 0, z) * cellSize, new Vector3(1, 0, 1) * cellSize);
             }
         }
+    }
+
+
+    public void DisplayUnacceptablePosition()
+    {
+        Renderer.material.color = Color.red;
+    }
+
+
+    public void DisplayAcceptablePosition()
+    {
+        Renderer.material.color = _startColor;
     }
 }

@@ -11,6 +11,8 @@ public class BuildingPlacer : MonoBehaviour
 
     public Building CurrentBuilding;
 
+    public Dictionary<Vector2Int, Building> BuildingsDictionary = new Dictionary<Vector2Int, Building>();
+
 
     void Start()
     {
@@ -35,6 +37,7 @@ public class BuildingPlacer : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            InstallBuilding(x, z, CurrentBuilding);
             CurrentBuilding = null;
         }
     }
@@ -44,5 +47,18 @@ public class BuildingPlacer : MonoBehaviour
     {
         GameObject newBuilding = Instantiate(buildingPrefab);
         CurrentBuilding = newBuilding.GetComponent<Building>();
+    }
+
+
+    private void InstallBuilding(int xPosition, int zPosition, Building building)
+    {
+        for (int x = 0; x < building.XSize; x++)
+        {
+            for (int z = 0; z < building.ZSize; z++)
+            {
+                Vector2Int coordinate = new Vector2Int(xPosition + x, zPosition + z);
+                BuildingsDictionary.Add(coordinate, building);
+            }
+        }
     }
 }
