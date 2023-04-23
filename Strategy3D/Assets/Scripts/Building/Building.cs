@@ -11,10 +11,19 @@ public class Building : SelectableObject
     private Color _startColor;
     public Renderer Renderer;
 
+    public GameObject MenuObject;
+
 
     private void Awake()
     {
         _startColor = Renderer.material.color;
+    }
+
+
+    public override void Start()
+    {
+        base.Start();
+        MenuObject.SetActive(false);
     }
 
 
@@ -41,5 +50,19 @@ public class Building : SelectableObject
     public void DisplayAcceptablePosition()
     {
         Renderer.material.color = _startColor;
+    }
+
+
+    public override void Select()
+    {
+        base.Select();
+        MenuObject.SetActive(true);
+    }
+
+
+    public override void Unselect()
+    {
+        base.Unselect();
+        MenuObject.SetActive(false);
     }
 }
