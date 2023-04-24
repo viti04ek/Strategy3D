@@ -25,7 +25,13 @@ public class Enemy : MonoBehaviour
     public NavMeshAgent NavMeshAgent;
 
 
-    void Update()
+    private void Start()
+    {
+        SetState(EnemyState.WalkToBuilding);
+    }
+
+
+    private void Update()
     {
         if (CurrentEnemyState == EnemyState.Idle)
         {
@@ -56,7 +62,8 @@ public class Enemy : MonoBehaviour
         }
         else if (CurrentEnemyState == EnemyState.WalkToBuilding)
         {
-
+            FindClosestBuilding();
+            NavMeshAgent.SetDestination(TargetBuilding.transform.position);
         }
         else if (CurrentEnemyState == EnemyState.WalkToUnit)
         {
@@ -66,5 +73,27 @@ public class Enemy : MonoBehaviour
         {
 
         }
+    }
+
+
+    public void FindClosestBuilding()
+    {
+        Building[] allBuildings = FindObjectsOfType<Building>();
+
+        float minDistance = Mathf.Infinity;
+        Building closestBuilding = null;
+
+        foreach (var building in allBuildings)
+        {
+            float distance = Vector3.Distance(transform.position, building.transform.position);
+
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closestBuilding = building;
+            }
+        }
+
+        TargetBuilding = closestBuilding;
     }
 }
