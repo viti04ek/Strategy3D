@@ -354,6 +354,7 @@
 "Assets/Scripts/Building/BuildingPlacer.cs"
 "Assets/Scripts/Building/Mine.cs"
 "Assets/Scripts/CameraMove.cs"
+"Assets/Scripts/Enemy.cs"
 "Assets/Scripts/Management.cs"
 "Assets/Scripts/Resources.cs"
 "Assets/Scripts/SelectableCollider.cs"
