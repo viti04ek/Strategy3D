@@ -24,6 +24,9 @@ public class Enemy : MonoBehaviour
 
     public NavMeshAgent NavMeshAgent;
 
+    public float AttackPeriod = 1f;
+    private float _timer;
+
 
     private void Start()
     {
@@ -35,19 +38,53 @@ public class Enemy : MonoBehaviour
     {
         if (CurrentEnemyState == EnemyState.Idle)
         {
-
+            FindClosestUnit();
         }
         else if (CurrentEnemyState == EnemyState.WalkToBuilding)
         {
+            FindClosestUnit();
 
+            if (!TargetBuilding)
+                SetState(EnemyState.Idle);
         }
         else if (CurrentEnemyState == EnemyState.WalkToUnit)
         {
+            if (TargetUnit)
+            {
+                NavMeshAgent.SetDestination(TargetUnit.transform.position);
 
+                float distance = Vector3.Distance(transform.position, TargetUnit.transform.position);
+                if (distance > DistanceToFollow)
+                    SetState(EnemyState.WalkToBuilding);
+
+                if (distance < DistanceToAttack)
+                    SetState(EnemyState.Attack);
+            }
+            else
+            {
+                SetState(EnemyState.WalkToBuilding);
+            }
         }
         else if (CurrentEnemyState == EnemyState.Attack)
         {
+            if (TargetUnit)
+            {
+                float distance = Vector3.Distance(transform.position, TargetUnit.transform.position);
 
+                if (distance > DistanceToAttack)
+                    SetState(EnemyState.WalkToUnit);
+
+                _timer += Time.deltaTime;
+                if (_timer > AttackPeriod)
+                {
+                    TargetUnit.TakeDamage(1);
+                    _timer = 0;
+                }
+            }
+            else
+            {
+                SetState(EnemyState.WalkToBuilding);
+            }
         }
     }
 
@@ -71,7 +108,7 @@ public class Enemy : MonoBehaviour
         }
         else if (CurrentEnemyState == EnemyState.Attack)
         {
-
+            _timer = 0;
         }
     }
 
@@ -95,5 +132,31 @@ public class Enemy : MonoBehaviour
         }
 
         TargetBuilding = closestBuilding;
+    }
+
+
+    public void FindClosestUnit()
+    {
+        Unit[] allUnits = FindObjectsOfType<Unit>();
+
+        float minDistance = Mathf.Infinity;
+        Unit closestUnit = null;
+
+        foreach (var unit in allUnits)
+        {
+            float distance = Vector3.Distance(transform.position, unit.transform.position);
+
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closestUnit = unit;
+            }
+        }
+
+        if (minDistance < DistanceToFollow)
+        {
+            TargetUnit = closestUnit;
+            SetState(EnemyState.WalkToUnit);
+        }
     }
 }

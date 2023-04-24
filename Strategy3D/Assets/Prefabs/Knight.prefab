@@ -244,6 +244,7 @@ MonoBehaviour:
   SelectionIndicator: {fileID: 7712940992233202661}
   NavMeshAgent: {fileID: 3683666383191469668}
   Price: 5
+  Health: 5
 --- !u!195 &3683666383191469668
 NavMeshAgent:
   m_ObjectHideFlags: 0
