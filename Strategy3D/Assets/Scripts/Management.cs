@@ -82,9 +82,15 @@ public class Management : MonoBehaviour
         {
             if (hit.collider.tag == "Ground")
             {
-                foreach (var selected in ListOfSelected)
+                int rowNumber = Mathf.CeilToInt(Mathf.Sqrt(ListOfSelected.Count));
+
+                for (int i = 0; i < ListOfSelected.Count; i++)
                 {
-                    selected.WhenClickOnGround(hit.point);
+                    int row = i / rowNumber;
+                    int column = i % rowNumber;
+                    Vector3 point = hit.point + new Vector3(row, 0, column);
+
+                    ListOfSelected[i].WhenClickOnGround(point);
                 }
             }
         }
