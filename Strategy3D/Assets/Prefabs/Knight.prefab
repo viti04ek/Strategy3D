@@ -245,6 +245,7 @@ MonoBehaviour:
   NavMeshAgent: {fileID: 3683666383191469668}
   Price: 5
   Health: 5
+  HealthBarRefab: {fileID: 8646040949541169715, guid: 6464613a93a8ba449a161afd63a40d55, type: 3}
 --- !u!195 &3683666383191469668
 NavMeshAgent:
   m_ObjectHideFlags: 0
