@@ -20,6 +20,8 @@ public class Enemy : MonoBehaviour
     public EnemyState CurrentEnemyState;
 
     public int Health;
+    private int _maxHealth;
+
     public Building TargetBuilding;
     public Unit TargetUnit;
     public float DistanceToFollow = 7;
@@ -30,10 +32,18 @@ public class Enemy : MonoBehaviour
     public float AttackPeriod = 1f;
     private float _timer;
 
+    public GameObject HealthBarRefab;
+    private HealthBar _healthBar;
+
 
     private void Start()
     {
         SetState(EnemyState.WalkToBuilding);
+        _maxHealth = Health;
+
+        GameObject healthBar = Instantiate(HealthBarRefab);
+        _healthBar = healthBar.GetComponent<HealthBar>();
+        _healthBar.Setup(transform);
     }
 
 
@@ -72,6 +82,8 @@ public class Enemy : MonoBehaviour
         {
             if (TargetUnit)
             {
+                NavMeshAgent.SetDestination(TargetUnit.transform.position);
+
                 float distance = Vector3.Distance(transform.position, TargetUnit.transform.position);
 
                 if (distance > DistanceToAttack)
@@ -174,4 +186,22 @@ public class Enemy : MonoBehaviour
         Handles.DrawWireDisc(transform.position, Vector3.up, DistanceToFollow);
     }
 #endif
+
+
+    public void TakeDamage(int damageValue)
+    {
+        Health -= damageValue;
+        _healthBar.SetHealth(Health, _maxHealth);
+
+        if (Health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+
+    private void OnDestroy()
+    {
+        Destroy(_healthBar.gameObject);
+    }
 }
