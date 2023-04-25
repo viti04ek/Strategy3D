@@ -51,6 +51,10 @@ public class Enemy : MonoBehaviour
     {
         if (CurrentEnemyState == EnemyState.Idle)
         {
+            FindClosestBuilding();
+            if (TargetBuilding)
+                SetState(EnemyState.WalkToBuilding);
+
             FindClosestUnit();
         }
         else if (CurrentEnemyState == EnemyState.WalkToBuilding)
@@ -115,7 +119,11 @@ public class Enemy : MonoBehaviour
         else if (CurrentEnemyState == EnemyState.WalkToBuilding)
         {
             FindClosestBuilding();
-            NavMeshAgent.SetDestination(TargetBuilding.transform.position);
+
+            if (TargetBuilding)
+                NavMeshAgent.SetDestination(TargetBuilding.transform.position);
+            else
+                SetState(EnemyState.Idle);
         }
         else if (CurrentEnemyState == EnemyState.WalkToUnit)
         {
@@ -202,6 +210,7 @@ public class Enemy : MonoBehaviour
 
     private void OnDestroy()
     {
-        Destroy(_healthBar.gameObject);
+        if (_healthBar)
+            Destroy(_healthBar.gameObject);
     }
 }

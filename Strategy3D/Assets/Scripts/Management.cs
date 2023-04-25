@@ -179,4 +179,13 @@ public class Management : MonoBehaviour
             selectableObject.Select();
         }
     }
+
+
+    public void Unselect(SelectableObject selectableObject)
+    {
+        if (ListOfSelected.Contains(selectableObject))
+        {
+            ListOfSelected.Remove(selectableObject);
+        }
+    }
 }

@@ -46,6 +46,9 @@ public class Unit : SelectableObject
 
     private void OnDestroy()
     {
-        Destroy(_healthBar.gameObject);
+        if (_healthBar)
+            Destroy(_healthBar.gameObject);
+
+        FindObjectOfType<Management>().Unselect(this);
     }
 }

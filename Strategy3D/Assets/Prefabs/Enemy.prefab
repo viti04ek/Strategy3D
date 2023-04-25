@@ -54,6 +54,7 @@ MonoBehaviour:
   DistanceToAttack: 1
   NavMeshAgent: {fileID: 3919634008938636462}
   AttackPeriod: 1
+  HealthBarRefab: {fileID: 8646040949541169715, guid: 6464613a93a8ba449a161afd63a40d55, type: 3}
 --- !u!195 &3919634008938636462
 NavMeshAgent:
   m_ObjectHideFlags: 0
